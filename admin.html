@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡密管理</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background-color: #4B96F3;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #3a7dc2;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .btn-success {
+            background-color: #28a745;
+            transition: background-color 0.3s ease;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            transition: background-color 0.3s ease;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-used {
+            background-color: #dc3545;
+            color: white;
+        }
+        .badge-unused {
+            background-color: #28a745;
+            color: white;
+        }
+        .badge-developer {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        .input-group input {
+            flex: 1;
+            border-radius: 0.5rem 0 0 0.5rem;
+        }
+        .input-group button {
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .generated-keys {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .key-item {
+            background-color: #f8f9fa;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #4B96F3;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover {
+            color: #3a7dc2;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">卡密管理系统</h1>
+            <p class="text-gray-600 mt-1">管理您的应用卡密，包括生成、查看和管理使用状态</p>
+        </header>
+        
+        <div class="card p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">生成新卡密</h2>
+            <div class="input-group mb-4">
+                <input type="number" id="keyCount" min="1" max="100" value="5" 
+                       class="px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <button id="generateKeysBtn" class="btn-primary text-white font-medium py-2 px-4 transition-colors duration-300 ease-in-out">
+                    生成卡密
+                </button>
+            </div>
+            <div id="generatedKeysContainer" class="generated-keys"></div>
+        </div>
+        
+        <div class="card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">卡密列表</h2>
+                <button id="refreshBtn" class="btn-secondary text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 ease-in-out">
+                    <i class="fa fa-refresh mr-1"></i> 刷新
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table id="licenseTable">
+                    <thead>
+                        <tr>
+                            <th>卡密</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="licenseTableBody">
+                        <!-- 卡密数据将通过JavaScript动态填充 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mt-6 text-center">
+            <button id="backToMainBtn" class="btn-primary text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 ease-in-out">
+                返回主页面
+            </button>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
